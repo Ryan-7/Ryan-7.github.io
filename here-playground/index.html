@@ -1,0 +1,56 @@
+<html>
+    <head>
+      ...
+      <meta name="viewport" content="initial-scale=1.0, 
+      width=device-width" />
+      <script src="http://js.api.here.com/v3/3.0/mapsjs-core.js" 
+      type="text/javascript" charset="utf-8"></script>
+      <script src="http://js.api.here.com/v3/3.0/mapsjs-data.js" 
+      type="text/javascript" charset="utf-8"></script>
+      <script src="http://js.api.here.com/v3/3.0/mapsjs-service.js" 
+      type="text/javascript" charset="utf-8"></script>
+      ...
+    </head>
+
+    <div style="width: 640px; height: 480px" id="mapContainer"></div>
+
+<script>
+
+    var platform = new H.service.Platform({
+        'app_id': '20xZCraVGaCHOmSmIqnG',
+        'app_code': '7zV_FsLGIBFFmn576VX2fA'
+    });
+
+    var defaultLayers = platform.createDefaultLayers();
+
+    // Instantiate (and display) a map object:
+    var map = new H.Map(
+    document.getElementById('mapContainer'),
+    defaultLayers.normal.map,
+    {
+        zoom: 10,
+        center: { lat: 39.707420, lng: -105.075653 }
+    });
+
+      // Create reader object initializing it with a document:
+    var reader = new H.data.kml.Reader('co-007.kml');
+  
+    // Parse the document:
+    reader.parse();
+
+    // Get KML layer from the reader object and add it to the map:
+    layer = reader.getLayer();
+    map.addLayer(layer);
+
+    // KML objects receive regular map events, so add an event listener to the 
+    // KML layer:
+    layer.getProvider().addEventListener('tap', function(ev) {
+        // Log map object data. They contain name, description (if present in 
+        // KML) and the KML node itself.
+        console.log(ev.target.getData());
+  });
+
+</script>
+
+
+
